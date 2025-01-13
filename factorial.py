@@ -9,7 +9,7 @@ def factorial(n):
     return result
 
 if len(sys.argv) != 2:
-    print("Usage: ./factorial.py <number>")
+    print("Usage: python3 script.py <number>")
     sys.exit(1)
 
 f = factorial(int(sys.argv[1]))
