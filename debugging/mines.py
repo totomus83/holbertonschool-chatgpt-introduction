@@ -9,11 +9,8 @@ class Minesweeper:
     def __init__(self, width=10, height=10, mines=10):
         self.width = width
         self.height = height
-        # Create a set of random mine positions
         self.mines = set(random.sample(range(width * height), mines))
-        # Initialize the field as a grid of empty spaces
         self.field = [[' ' for _ in range(width)] for _ in range(height)]
-        # Track which cells are revealed
         self.revealed = [[False for _ in range(width)] for _ in range(height)]
 
     def print_board(self, reveal=False):
@@ -43,12 +40,10 @@ class Minesweeper:
         return count
 
     def reveal(self, x, y):
-        # If a mine is hit, return False to indicate game over
         if (y * self.width + x) in self.mines:
             return False
         self.revealed[y][x] = True
         if self.count_mines_nearby(x, y) == 0:
-            # Reveal surrounding cells if no mines are nearby
             for dx in [-1, 0, 1]:
                 for dy in [-1, 0, 1]:
                     nx, ny = x + dx, y + dy
@@ -57,12 +52,10 @@ class Minesweeper:
         return True
 
     def check_win(self):
-        # Count revealed non-mine cells
         revealed_non_mines = sum(
             1 for y in range(self.height) for x in range(self.width) 
             if self.revealed[y][x] and (y * self.width + x) not in self.mines
         )
-        # Count the total non-mine cells
         non_mine_cells = self.width * self.height - len(self.mines)
         return revealed_non_mines == non_mine_cells
 
@@ -72,13 +65,15 @@ class Minesweeper:
             try:
                 x = int(input("Enter x coordinate: "))
                 y = int(input("Enter y coordinate: "))
-                # If revealing a mine, game over
+                if not (0 <= x < self.width and 0 <= y < self.height):
+                    print("Invalid coordinates. Please enter valid x and y within the grid.")
+                    continue
+                
                 if not self.reveal(x, y):
                     self.print_board(reveal=True)
                     print("Game Over! You hit a mine.")
                     break
                 
-                # Check for win condition
                 if self.check_win():
                     self.print_board(reveal=True)
                     print("Congratulations! You've won the game.")
@@ -91,3 +86,4 @@ class Minesweeper:
 if __name__ == "__main__":
     game = Minesweeper()
     game.play()
+
