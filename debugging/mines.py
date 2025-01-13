@@ -81,7 +81,7 @@ class Minesweeper:
                 # Check for win condition
                 if self.check_win():
                     self.print_board(reveal=True)
-                    print("Congratulations! You've won the game!")
+                    print("Congratulations! You've won the game.")
                     break
             except ValueError:
                 print("Invalid input. Please enter numbers only.")
